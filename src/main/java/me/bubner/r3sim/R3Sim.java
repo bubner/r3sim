@@ -7,7 +7,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import me.bubner.r3sim.camera.AngleOverlay;
 import me.bubner.r3sim.camera.MainCamera;
-import me.bubner.r3sim.objects.AxisLines;
 
 /**
  * R3Sim
