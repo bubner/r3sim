@@ -32,7 +32,7 @@ public class R3Sim extends Application {
     public void start(Stage stage) {
         Group root3d = new Group();
         SubScene scene3d = new SubScene(root3d, 1024, 768, true, SceneAntialiasing.BALANCED);
-        
+
         Pane hud = new Pane();
         hud.setPickOnBounds(false);
         hud.prefWidthProperty().bind(scene3d.widthProperty());
@@ -46,7 +46,7 @@ public class R3Sim extends Application {
         scene3d.setFill(Color.GRAY);
         hud.getChildren().add(new AngleOverlay());
         root3d.getChildren().addAll(camera, new World());
-        
+
         stage.setTitle("R3 Sim");
         stage.setResizable(false);
         stage.setScene(mainScene);

@@ -1,7 +1,10 @@
 package me.bubner.r3sim.camera;
 
 import javafx.animation.AnimationTimer;
-import javafx.scene.*;
+import javafx.scene.Camera;
+import javafx.scene.Group;
+import javafx.scene.PerspectiveCamera;
+import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.transform.Rotate;
 import me.bubner.r3sim.R3Sim;
@@ -20,19 +23,13 @@ import static javafx.scene.input.KeyCode.*;
  * @author Lucas Bubner, 2025
  */
 public class MainCamera extends Group {
-    private final PerspectiveCamera camera;
-    private final Group yawGroup;
-    private final Group pitchGroup;
-    public static double getYaw() {
-        return yaw;
-    }
-    public static double getPitch() {
-        return pitch;
-    }
-    private static double yaw = 0, pitch = 0;
     private static final double CAMERA_NEAR_CLIP = 0.0;
     private static final double CAMERA_FAR_CLIP = 10000.0;
     private static final double INPUT_DEGREES_PER_SECOND = 60.0;
+    private static double yaw = 0, pitch = 0;
+    private final PerspectiveCamera camera;
+    private final Group yawGroup;
+    private final Group pitchGroup;
 
     public MainCamera() {
         // Remap from +x right, +y down, +z forward to +x forward, +y left, +z up
@@ -99,6 +96,14 @@ public class MainCamera extends Group {
 
         // Run permanently in the background
         inputHandler.start();
+    }
+
+    public static double getYaw() {
+        return yaw;
+    }
+
+    public static double getPitch() {
+        return pitch;
     }
 
     public Camera getCamera() {

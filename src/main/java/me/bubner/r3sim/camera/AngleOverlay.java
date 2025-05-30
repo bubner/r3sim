@@ -8,7 +8,7 @@ import javafx.scene.text.Text;
 
 /**
  * Displays yaw and tilt for the camera.
- * 
+ *
  * @author Lucas Bubner, 2025
  */
 public class AngleOverlay extends StackPane {
@@ -24,7 +24,7 @@ public class AngleOverlay extends StackPane {
             }
         };
         anglesDisplay.start();
-        
+
         getChildren().add(hudText);
     }
 }
