@@ -3,6 +3,10 @@ package me.bubner.r3sim;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.SceneAntialiasing;
+import javafx.scene.SubScene;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import me.bubner.r3sim.camera.AngleOverlay;
@@ -14,11 +18,10 @@ import me.bubner.r3sim.camera.MainCamera;
  * @author Lucas Bubner, 2025
  */
 public class R3Sim extends Application {
-    private static Scene scene;
-    private final Group root = new Group();
+    private static Scene mainScene;
 
-    public static Scene getScene() {
-        return scene;
+    public static Scene getMainScene() {
+        return mainScene;
     }
 
     public static void main(String[] args) {
@@ -27,19 +30,26 @@ public class R3Sim extends Application {
 
     @Override
     public void start(Stage stage) {
-        scene = new Scene(root, 1024, 768, true);
-        MainCamera camera = new MainCamera();
-        scene.setCamera(camera);
-        scene.setFill(Color.BLACK);
+        Group root3d = new Group();
+        SubScene scene3d = new SubScene(root3d, 1024, 768, true, SceneAntialiasing.BALANCED);
+        
+        Pane hud = new Pane();
+        hud.setPickOnBounds(false);
+        hud.prefWidthProperty().bind(scene3d.widthProperty());
+        hud.prefHeightProperty().bind(scene3d.heightProperty());
 
-        root.getChildren().addAll(
-                camera,
-                new AngleOverlay(),
-                new World()
-        );
+        StackPane root = new StackPane(scene3d, hud);
+        mainScene = new Scene(root, 1024, 768);
+
+        MainCamera camera = new MainCamera();
+        scene3d.setCamera(camera.getCamera());
+        scene3d.setFill(Color.GRAY);
+        hud.getChildren().add(new AngleOverlay());
+        root3d.getChildren().addAll(camera, new World());
         
         stage.setTitle("R3 Sim");
-        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.setScene(mainScene);
         stage.show();
     }
 }
