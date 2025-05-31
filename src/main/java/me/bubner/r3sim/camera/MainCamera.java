@@ -25,7 +25,8 @@ import static javafx.scene.input.KeyCode.*;
 public class MainCamera extends Group {
     public static final double CAMERA_FAR_CLIP = 10000.0;
     private static final double CAMERA_NEAR_CLIP = 0.0;
-    private static final double INPUT_DEGREES_PER_SECOND = 60.0;
+    private static final double INPUT_DEGREES_PER_SECOND_YAW = 60.0;
+    private static final double INPUT_DEGREES_PER_SECOND_PITCH = 30.0;
     private static double yaw = 0, pitch = 0;
     private final PerspectiveCamera camera;
     private final Group yawGroup;
@@ -67,27 +68,28 @@ public class MainCamera extends Group {
                 double dtSec = (now - lastTime) / 1e9;
                 lastTime = now;
                 // Use a delta time to control rotation speed (and smoothness)
-                double angle = INPUT_DEGREES_PER_SECOND * dtSec;
+                double deltaYaw = INPUT_DEGREES_PER_SECOND_YAW * dtSec;
+                double deltaPitch = INPUT_DEGREES_PER_SECOND_PITCH * dtSec;
                 if (pressed.contains(UP)) {
-                    pitch += angle;
+                    pitch += deltaPitch;
                     pitch = Util.clamp(pitch, -90, 90);
                     pitchGroup.setRotationAxis(Rotate.X_AXIS);
                     pitchGroup.setRotate(pitch);
                 }
                 if (pressed.contains(DOWN)) {
-                    pitch -= angle;
+                    pitch -= deltaPitch;
                     pitch = Util.clamp(pitch, -90, 90);
                     pitchGroup.setRotationAxis(Rotate.X_AXIS);
                     pitchGroup.setRotate(pitch);
                 }
                 if (pressed.contains(LEFT)) {
-                    yaw += angle;
+                    yaw += deltaYaw;
                     yawGroup.setRotationAxis(Rotate.Y_AXIS);
                     // Relative to the world this is actually incorrect, but we try to keep the reference frame +theta ccw
                     yawGroup.setRotate(-yaw);
                 }
                 if (pressed.contains(RIGHT)) {
-                    yaw -= angle;
+                    yaw -= deltaYaw;
                     yawGroup.setRotationAxis(Rotate.Y_AXIS);
                     yawGroup.setRotate(-yaw);
                 }
