@@ -19,11 +19,13 @@ public class Line extends Cylinder {
     public Line(Point3D startPoint, Point3D directionVector) {
         // Height will be set later
         super(LINE_WIDTH, 0);
+        setVisible(false);
         this.startPoint = startPoint;
         this.directionVector = directionVector;
     }
     
     public Line render(double lambdaMin, double lambdaMax) {
+        setVisible(true);
         Point3D p1 = startPoint.add(directionVector.multiply(lambdaMin));
         Point3D p2 = startPoint.add(directionVector.multiply(lambdaMax));
 

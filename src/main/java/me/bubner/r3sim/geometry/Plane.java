@@ -2,6 +2,12 @@ package me.bubner.r3sim.geometry;
 
 import javafx.geometry.Point3D;
 import javafx.scene.Group;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.PhongMaterial;
+import javafx.scene.shape.CullFace;
+import javafx.scene.shape.DrawMode;
+import javafx.scene.shape.MeshView;
+import javafx.scene.shape.TriangleMesh;
 import me.bubner.r3sim.camera.MainCamera;
 
 /**
@@ -10,24 +16,56 @@ import me.bubner.r3sim.camera.MainCamera;
  * @author Lucas Bubner, 2025
  */
 public class Plane extends Group {
-    private static final double PLANE_DEPTH = 1;
-    
     private final Point3D startPoint;
     private final Point3D basis1;
     private final Point3D basis2;
     
+    private double opacity = 0.5;
+
     public Plane(Point3D A, Point3D AV, Point3D AW) {
+        setVisible(false);
         startPoint = A;
         basis1 = AV;
         basis2 = AW;
     }
-    
+
     public Plane render(double lambdaMin, double lambdaMax, double muMin, double muMax) {
-        // TODO
+        setVisible(true);
+        TriangleMesh mesh = new TriangleMesh();
+
+        Point3D p00 = startPoint.add(basis1.multiply(lambdaMin)).add(basis2.multiply(muMin));
+        Point3D p01 = startPoint.add(basis1.multiply(lambdaMin)).add(basis2.multiply(muMax));
+        Point3D p10 = startPoint.add(basis1.multiply(lambdaMax)).add(basis2.multiply(muMin));
+        Point3D p11 = startPoint.add(basis1.multiply(lambdaMax)).add(basis2.multiply(muMax));
+
+        mesh.getPoints().addAll(
+                (float) p00.getX(), (float) p00.getY(), (float) p00.getZ(),
+                (float) p01.getX(), (float) p01.getY(), (float) p01.getZ(),
+                (float) p10.getX(), (float) p10.getY(), (float) p10.getZ(),
+                (float) p11.getX(), (float) p11.getY(), (float) p11.getZ()
+        );
+        mesh.getTexCoords().addAll(0, 0);
+        mesh.getFaces().addAll(
+                0, 0, 1, 0, 2, 0,
+                2, 0, 1, 0, 3, 0
+        );
+
+        MeshView meshView = new MeshView(mesh);
+        meshView.setMaterial(new PhongMaterial(Color.BLACK.deriveColor(0, 0, 0, opacity)));
+        meshView.setDrawMode(DrawMode.FILL);
+        meshView.setCullFace(CullFace.NONE);
+
+        getChildren().add(meshView);
         return this;
     }
-    
+
     public Plane render() {
-        return render(-MainCamera.CAMERA_FAR_CLIP, MainCamera.CAMERA_FAR_CLIP, -MainCamera.CAMERA_FAR_CLIP, MainCamera.CAMERA_FAR_CLIP);
+        return render(-MainCamera.CAMERA_FAR_CLIP, MainCamera.CAMERA_FAR_CLIP,
+                -MainCamera.CAMERA_FAR_CLIP, MainCamera.CAMERA_FAR_CLIP);
     }
-}
+    
+    public Plane setColorOpacity(double opacity) {
+        this.opacity = opacity;
+        return this;
+    }
+} 

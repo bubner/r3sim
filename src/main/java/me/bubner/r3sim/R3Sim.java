@@ -31,7 +31,7 @@ public class R3Sim extends Application {
     @Override
     public void start(Stage stage) {
         Group root3d = new Group();
-        SubScene scene3d = new SubScene(root3d, 1024, 768, true, SceneAntialiasing.BALANCED);
+        SubScene scene3d = new SubScene(root3d, 1024, 768, false, SceneAntialiasing.BALANCED);
 
         Pane hud = new Pane();
         hud.setPickOnBounds(false);
