@@ -18,6 +18,8 @@ import me.bubner.r3sim.camera.MainCamera;
  * @author Lucas Bubner, 2025
  */
 public class R3Sim extends Application {
+    private static final Color FILL_COLOUR = Color.GRAY
+            .deriveColor(0, 0, 0, 0.7);
     private static Scene mainScene;
 
     public static Scene getMainScene() {
@@ -43,7 +45,7 @@ public class R3Sim extends Application {
 
         MainCamera camera = new MainCamera();
         scene3d.setCamera(camera.getCamera());
-        scene3d.setFill(Color.GRAY);
+        scene3d.setFill(FILL_COLOUR);
         hud.getChildren().add(new AngleOverlay());
         root3d.getChildren().addAll(camera, new World());
 

@@ -13,7 +13,7 @@ import javafx.scene.text.Text;
  */
 public class AngleOverlay extends StackPane {
     public AngleOverlay() {
-        Text hudText = new Text("(0°,0°)");
+        Text hudText = new Text("(0.0°, 0.0°)");
         hudText.setFill(Color.WHITE);
         hudText.setFont(Font.font(16));
 

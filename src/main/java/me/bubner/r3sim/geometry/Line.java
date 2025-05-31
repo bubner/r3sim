@@ -11,7 +11,7 @@ import me.bubner.r3sim.camera.MainCamera;
  * @author Lucas Bubner, 2025
  */
 public class Line extends Cylinder {
-    private static final double LINE_WIDTH = 1;
+    public static final double LINE_WIDTH = 1;
     
     private final Point3D startPoint;
     private final Point3D directionVector;
