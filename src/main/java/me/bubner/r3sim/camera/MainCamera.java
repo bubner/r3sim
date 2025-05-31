@@ -23,8 +23,8 @@ import static javafx.scene.input.KeyCode.*;
  * @author Lucas Bubner, 2025
  */
 public class MainCamera extends Group {
+    public static final double CAMERA_FAR_CLIP = 10000.0;
     private static final double CAMERA_NEAR_CLIP = 0.0;
-    private static final double CAMERA_FAR_CLIP = 10000.0;
     private static final double INPUT_DEGREES_PER_SECOND = 60.0;
     private static double yaw = 0, pitch = 0;
     private final PerspectiveCamera camera;

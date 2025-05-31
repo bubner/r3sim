@@ -1,6 +1,8 @@
 package me.bubner.r3sim;
 
+import javafx.geometry.Point3D;
 import javafx.scene.Group;
+import me.bubner.r3sim.geometry.Line;
 import me.bubner.r3sim.objects.FloorPlane;
 
 /**
@@ -11,7 +13,8 @@ import me.bubner.r3sim.objects.FloorPlane;
 public class World extends Group {
     public World() {
         getChildren().addAll(
-                new FloorPlane()
+                new FloorPlane(),
+                new Line(new Point3D(500, 0, 0), new Point3D(1, 1, 1))
         );
     }
 }
