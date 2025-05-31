@@ -35,6 +35,7 @@ public class MainCamera extends Group {
         // Remap from +x right, +y down, +z forward to +x forward, +y left, +z up
         getTransforms().addAll(
                 new Rotate(-90, Rotate.Z_AXIS),
+                // Uses original axes, not transformed axes which instead would be +90 in Y
                 new Rotate(-90, Rotate.X_AXIS)
         );
         camera = new PerspectiveCamera(true);
