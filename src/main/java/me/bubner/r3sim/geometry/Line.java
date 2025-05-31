@@ -28,9 +28,6 @@ public class Line extends Cylinder {
         Point3D p1 = startPoint.add(directionVector.multiply(lambdaMin));
         Point3D p2 = startPoint.add(directionVector.multiply(lambdaMax));
 
-        System.out.println(p1);
-        System.out.println(p2);
-
         // Length of cylinder is controlled by height so use the magnitude of the start and end points
         setHeight(p1.distance(p2));
 
