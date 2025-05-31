@@ -12,7 +12,7 @@ import javafx.scene.shape.Sphere;
  */
 public class Point extends Sphere {
     private static final Color POINT_COLOUR = Color.CYAN;
-    private static final double POINT_SIZE = 3;
+    private static final double POINT_SIZE = 5;
 
     public Point(Point3D point) {
         super(POINT_SIZE);

@@ -41,7 +41,13 @@ public class World extends Group {
                 new Line(new Point3D(200, -100, -100), new Point3D(0, 0, 1))
                         .render(-300, 0),
                 new Point(new Point3D(400, 100, -100)),
-                new Point(new Point3D(400, -100, -100))
+                new Point(new Point3D(400, -100, -100)),
+                new Plane(new Point3D(200, -100, -400), new Point3D(0, 0, 1), new Point3D(200, 200, 300))
+                        .render(0, 20, 0, 1),
+                new Plane(new Point3D(200, 100, -400), new Point3D(0, 0, 1), new Point3D(200, -200, 300))
+                        .render(0, 20, 0, 1),
+                new Plane(new Point3D(400, -100, -100), new Point3D(0, 1, 0), new Point3D(100, 0, -300))
+                        .render(0, 200, 0, 1)
         );
     }
 }

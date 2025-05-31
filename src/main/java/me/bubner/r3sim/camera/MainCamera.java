@@ -25,7 +25,7 @@ import static javafx.scene.input.KeyCode.*;
 public class MainCamera extends Group {
     public static final double CAMERA_FAR_CLIP = 10000.0;
     private static final double CAMERA_NEAR_CLIP = 0.0;
-    private static final double CAMERA_FOV = 60;
+    private static final double CAMERA_FOV = 75;
     private static final double INPUT_DEGREES_PER_SECOND_YAW = 60.0;
     private static final double INPUT_DEGREES_PER_SECOND_PITCH = 30.0;
     private static double yaw = 0, pitch = 0;
