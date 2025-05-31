@@ -1,29 +1,33 @@
 package me.bubner.r3sim.geometry;
 
 import javafx.geometry.Point3D;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Cylinder;
 import javafx.scene.transform.Rotate;
 import me.bubner.r3sim.camera.MainCamera;
 
 /**
  * Vector parameterised form of a line.
- * 
+ *
  * @author Lucas Bubner, 2025
  */
 public class Line extends Cylinder {
     public static final double LINE_WIDTH = 1;
-    
+    private static final Color LINE_COLOUR = Color.RED;
+
     private final Point3D startPoint;
     private final Point3D directionVector;
-    
+
     public Line(Point3D startPoint, Point3D directionVector) {
         // Height will be set later
         super(LINE_WIDTH, 0);
         setVisible(false);
         this.startPoint = startPoint;
         this.directionVector = directionVector;
+        setMaterial(new PhongMaterial(LINE_COLOUR));
     }
-    
+
     public Line render(double lambdaMin, double lambdaMax) {
         setVisible(true);
         Point3D p1 = startPoint.add(directionVector.multiply(lambdaMin));
@@ -47,10 +51,10 @@ public class Line extends Cylinder {
                 directionVector.crossProduct(Rotate.Y_AXIS)
         );
         getTransforms().add(rotation);
-        
+
         return this;
     }
-    
+
     public Line render() {
         return render(-MainCamera.CAMERA_FAR_CLIP, MainCamera.CAMERA_FAR_CLIP);
     }

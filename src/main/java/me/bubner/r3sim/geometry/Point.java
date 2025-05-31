@@ -7,17 +7,18 @@ import javafx.scene.shape.Sphere;
 
 /**
  * A spherical coloured point rendered immediately.
- * 
+ *
  * @author Lucas Bubner, 2025
  */
 public class Point extends Sphere {
+    private static final Color POINT_COLOUR = Color.CYAN;
     private static final double POINT_SIZE = Line.LINE_WIDTH;
-    
-    public Point(Point3D point, Color color) {
+
+    public Point(Point3D point) {
         super(POINT_SIZE);
         setTranslateX(point.getX());
         setTranslateY(point.getY());
         setTranslateZ(point.getZ());
-        setMaterial(new PhongMaterial(color));
+        setMaterial(new PhongMaterial(POINT_COLOUR));
     }
 }

@@ -12,14 +12,14 @@ import me.bubner.r3sim.camera.MainCamera;
 
 /**
  * Vector parameterised form of a plane.
- * 
+ *
  * @author Lucas Bubner, 2025
  */
 public class Plane extends Group {
     private final Point3D startPoint;
     private final Point3D basis1;
     private final Point3D basis2;
-    
+
     private double opacity = 0.5;
 
     public Plane(Point3D A, Point3D AV, Point3D AW) {
@@ -63,7 +63,7 @@ public class Plane extends Group {
         return render(-MainCamera.CAMERA_FAR_CLIP, MainCamera.CAMERA_FAR_CLIP,
                 -MainCamera.CAMERA_FAR_CLIP, MainCamera.CAMERA_FAR_CLIP);
     }
-    
+
     public Plane setColorOpacity(double opacity) {
         this.opacity = opacity;
         return this;

@@ -25,6 +25,7 @@ import static javafx.scene.input.KeyCode.*;
 public class MainCamera extends Group {
     public static final double CAMERA_FAR_CLIP = 10000.0;
     private static final double CAMERA_NEAR_CLIP = 0.0;
+    private static final double CAMERA_FOV = 60;
     private static final double INPUT_DEGREES_PER_SECOND_YAW = 60.0;
     private static final double INPUT_DEGREES_PER_SECOND_PITCH = 30.0;
     private static double yaw = 0, pitch = 0;
@@ -40,6 +41,7 @@ public class MainCamera extends Group {
                 new Rotate(-90, Rotate.X_AXIS)
         );
         camera = new PerspectiveCamera(true);
+        camera.setFieldOfView(CAMERA_FOV);
         camera.setNearClip(CAMERA_NEAR_CLIP);
         camera.setFarClip(CAMERA_FAR_CLIP);
 
