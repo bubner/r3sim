@@ -6,7 +6,7 @@ import javafx.scene.transform.Rotate;
 import me.bubner.r3sim.camera.MainCamera;
 
 /**
- * Parametric form of a line.
+ * Vector parameterised form of a line.
  * 
  * @author Lucas Bubner, 2025
  */
@@ -21,10 +21,9 @@ public class Line extends Cylinder {
         super(LINE_WIDTH, 0);
         this.startPoint = startPoint;
         this.directionVector = directionVector;
-        render();
     }
     
-    public void render(double lambdaMin, double lambdaMax) {
+    public Line render(double lambdaMin, double lambdaMax) {
         Point3D p1 = startPoint.add(directionVector.multiply(lambdaMin));
         Point3D p2 = startPoint.add(directionVector.multiply(lambdaMax));
 
@@ -46,9 +45,11 @@ public class Line extends Cylinder {
                 directionVector.crossProduct(Rotate.Y_AXIS)
         );
         getTransforms().add(rotation);
+        
+        return this;
     }
     
-    public void render() {
-        render(-MainCamera.CAMERA_FAR_CLIP, MainCamera.CAMERA_FAR_CLIP);
+    public Line render() {
+        return render(-MainCamera.CAMERA_FAR_CLIP, MainCamera.CAMERA_FAR_CLIP);
     }
 }

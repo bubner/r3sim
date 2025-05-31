@@ -14,7 +14,7 @@ public class World extends Group {
     public World() {
         getChildren().addAll(
                 new FloorPlane(),
-                new Line(new Point3D(500, 0, 0), new Point3D(1, 1, 1))
+                new Line(new Point3D(500, 0, 0), new Point3D(1, 1, 1)).render()
         );
     }
 }
