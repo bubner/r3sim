@@ -1,6 +1,5 @@
 package me.bubner.r3sim.camera;
 
-import javafx.animation.AnimationTimer;
 import javafx.scene.Camera;
 import javafx.scene.Group;
 import javafx.scene.PerspectiveCamera;
@@ -58,46 +57,35 @@ public class MainCamera extends Group {
         scene.setOnKeyPressed(e -> pressed.add(e.getCode()));
         scene.setOnKeyReleased(e -> pressed.remove(e.getCode()));
 
-        AnimationTimer inputHandler = new AnimationTimer() {
-            private long lastTime = 0;
-
-            @Override
-            public void handle(long now) {
-                if (lastTime == 0) {
-                    lastTime = now;
-                    return;
-                }
-                double dtSec = (now - lastTime) / 1e9;
-                lastTime = now;
-                // Use a delta time to control rotation speed (and smoothness)
-                double deltaYaw = INPUT_DEGREES_PER_SECOND_YAW * dtSec;
-                double deltaPitch = INPUT_DEGREES_PER_SECOND_PITCH * dtSec;
-                if (pressed.contains(UP)) {
-                    pitch += deltaPitch;
-                    pitch = Util.clamp(pitch, -90, 90);
-                    pitchGroup.setRotationAxis(Rotate.X_AXIS);
-                    pitchGroup.setRotate(pitch);
-                }
-                if (pressed.contains(DOWN)) {
-                    pitch -= deltaPitch;
-                    pitch = Util.clamp(pitch, -90, 90);
-                    pitchGroup.setRotationAxis(Rotate.X_AXIS);
-                    pitchGroup.setRotate(pitch);
-                }
-                if (pressed.contains(LEFT)) {
-                    yaw += deltaYaw;
-                    yawGroup.setRotationAxis(Rotate.Y_AXIS);
-                    // Relative to the world this is actually incorrect, but we try to keep the reference frame +theta ccw
-                    yawGroup.setRotate(-yaw);
-                }
-                if (pressed.contains(RIGHT)) {
-                    yaw -= deltaYaw;
-                    yawGroup.setRotationAxis(Rotate.Y_AXIS);
-                    yawGroup.setRotate(-yaw);
-                }
-                yaw = Util.wrap(yaw, -180, 180);
+        Util.DeltaTimer inputHandler = new Util.DeltaTimer((dtSec) -> {
+            // Use a delta time to control rotation speed (and smoothness)
+            double deltaYaw = INPUT_DEGREES_PER_SECOND_YAW * dtSec;
+            double deltaPitch = INPUT_DEGREES_PER_SECOND_PITCH * dtSec;
+            if (pressed.contains(UP)) {
+                pitch += deltaPitch;
+                pitch = Util.clamp(pitch, -90, 90);
+                pitchGroup.setRotationAxis(Rotate.X_AXIS);
+                pitchGroup.setRotate(pitch);
             }
-        };
+            if (pressed.contains(DOWN)) {
+                pitch -= deltaPitch;
+                pitch = Util.clamp(pitch, -90, 90);
+                pitchGroup.setRotationAxis(Rotate.X_AXIS);
+                pitchGroup.setRotate(pitch);
+            }
+            if (pressed.contains(LEFT)) {
+                yaw += deltaYaw;
+                yawGroup.setRotationAxis(Rotate.Y_AXIS);
+                // Relative to the world this is actually incorrect, but we try to keep the reference frame +theta ccw
+                yawGroup.setRotate(-yaw);
+            }
+            if (pressed.contains(RIGHT)) {
+                yaw -= deltaYaw;
+                yawGroup.setRotationAxis(Rotate.Y_AXIS);
+                yawGroup.setRotate(-yaw);
+            }
+            yaw = Util.wrap(yaw, -180, 180);
+        });
 
         // Run permanently in the background
         inputHandler.start();

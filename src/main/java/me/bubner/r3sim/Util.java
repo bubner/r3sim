@@ -1,5 +1,9 @@
 package me.bubner.r3sim;
 
+import javafx.animation.AnimationTimer;
+
+import java.util.function.Consumer;
+
 /**
  * Common utils.
  *
@@ -13,5 +17,24 @@ public class Util {
     public static double wrap(double value, double min, double max) {
         double range = max - min;
         return ((value - min) % range + range) % range + min;
+    }
+    
+    public static class DeltaTimer extends AnimationTimer {
+        private final Consumer<Double> dtSec;
+        private long lastTime = 0;
+        
+        public DeltaTimer(Consumer<Double> dtSec) {
+            this.dtSec = dtSec;
+        }
+        
+        @Override
+        public void handle(long now) {
+            if (lastTime == 0) {
+                lastTime = now;
+                return;
+            }
+            dtSec.accept((now - lastTime) / 1e9);
+            lastTime = now;
+        }
     }
 }
