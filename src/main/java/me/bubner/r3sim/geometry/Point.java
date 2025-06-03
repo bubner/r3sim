@@ -19,14 +19,14 @@ public class Point extends Sphere {
         setMaterial(new PhongMaterial(POINT_COLOUR));
         setPosition(point);
     }
-    
+
+    public Point3D getPosition() {
+        return new Point3D(getTranslateX(), getTranslateY(), getTranslateZ());
+    }
+
     public void setPosition(Point3D newPosition) {
         setTranslateX(newPosition.getX());
         setTranslateY(newPosition.getY());
         setTranslateZ(newPosition.getZ());
-    }
-    
-    public Point3D getPosition() {
-        return new Point3D(getTranslateX(), getTranslateY(), getTranslateZ());
     }
 }

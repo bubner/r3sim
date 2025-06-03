@@ -17,10 +17,13 @@ import me.bubner.r3sim.physics.Solid;
  * @author Lucas Bubner, 2025
  */
 public class Plane extends Group implements Solid {
+    public static final double PLANE_INTERACTION_EPSILON = 10;
+
     private final Point3D startPoint;
     private final Point3D basis1;
     private final Point3D basis2;
     private final Point3D normal;
+    private final double cartesianConstant;
 
     private double opacity = 0.5;
     private double energyRetainedRatio = 1;
@@ -31,6 +34,7 @@ public class Plane extends Group implements Solid {
         basis1 = AV;
         basis2 = AW;
         normal = AV.crossProduct(AW);
+        cartesianConstant = normal.dotProduct(A);
     }
 
     public Plane render(double lambdaMin, double lambdaMax, double muMin, double muMax) {
@@ -72,11 +76,6 @@ public class Plane extends Group implements Solid {
         this.opacity = opacity;
         return this;
     }
-    
-    public Plane setCollisionEnergyMultiplier(double energyRetainedRatio) {
-        this.energyRetainedRatio = energyRetainedRatio;
-        return this;
-    }
 
     @Override
     public Point3D getNormalVector() {
@@ -88,11 +87,13 @@ public class Plane extends Group implements Solid {
         return energyRetainedRatio;
     }
 
+    public Plane setCollisionEnergyMultiplier(double energyRetainedRatio) {
+        this.energyRetainedRatio = energyRetainedRatio;
+        return this;
+    }
+
     @Override
     public boolean isIntersecting(Point3D query) {
-        // TODO: this isnt actually implemented
-        if (normal.angle(new Point3D(0, 0, -1)) == 180)
-            return query.getZ() < startPoint.getZ();
-        return query.getX() > startPoint.getX();
+        return Math.abs(normal.dotProduct(query) - cartesianConstant) <= PLANE_INTERACTION_EPSILON;
     }
 } 

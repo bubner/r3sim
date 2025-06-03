@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 /**
  * Declares a physics solid in the world.
- * 
+ *
  * @author Lucas Bubner, 2025
  */
 public interface Solid {
@@ -15,8 +15,10 @@ public interface Solid {
     default void enablePhysicsInteractions() {
         OBJECTS.add(this);
     }
-    
+
     Point3D getNormalVector();
+
     double getCollisionEnergyMultiplier();
+
     boolean isIntersecting(Point3D query);
 }

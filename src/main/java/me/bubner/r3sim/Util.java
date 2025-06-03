@@ -18,20 +18,20 @@ public class Util {
         double range = max - min;
         return ((value - min) % range + range) % range + min;
     }
-    
+
     public static <T> T apply(T obj, Consumer<T> func) {
         func.accept(obj);
         return obj;
     }
-    
+
     public static class DeltaTimer extends AnimationTimer {
         private final Consumer<Double> dtSec;
         private long lastTime = 0;
-        
+
         public DeltaTimer(Consumer<Double> dtSec) {
             this.dtSec = dtSec;
         }
-        
+
         @Override
         public void handle(long now) {
             if (lastTime == 0) {
