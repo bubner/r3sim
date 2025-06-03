@@ -25,6 +25,7 @@ public class Plane extends Group implements Solid {
     private final Point3D normal;
     private final double cartesianConstant;
 
+    private double lambdaMin, lambdaMax, muMin, muMax;
     private double opacity = 0.5;
     private double energyRetainedRatio = 1;
 
@@ -38,6 +39,11 @@ public class Plane extends Group implements Solid {
     }
 
     public Plane render(double lambdaMin, double lambdaMax, double muMin, double muMax) {
+        this.lambdaMin = lambdaMin;
+        this.lambdaMax = lambdaMax;
+        this.muMin = muMin;
+        this.muMax = muMax;
+
         setVisible(true);
         TriangleMesh mesh = new TriangleMesh();
 
@@ -94,6 +100,14 @@ public class Plane extends Group implements Solid {
 
     @Override
     public boolean isIntersecting(Point3D query) {
-        return Math.abs(normal.dotProduct(query) - cartesianConstant) <= PLANE_INTERACTION_EPSILON;
+        // Direct plane equation check
+        if (!isVisible() || Math.abs(normal.dotProduct(query) - cartesianConstant) > PLANE_INTERACTION_EPSILON)
+            return false;
+        // Intersection with the plane at some point is confirmed, but check last rendered bounds too
+        Point3D relativePoint = query.subtract(startPoint);
+        double projectedLambda = relativePoint.dotProduct(basis1) / basis1.dotProduct(basis1);
+        double projectedMu = relativePoint.dotProduct(basis2) / basis2.dotProduct(basis2);
+        return projectedLambda >= lambdaMin && projectedLambda <= lambdaMax
+                && projectedMu >= muMin && projectedMu <= muMax;
     }
 } 
