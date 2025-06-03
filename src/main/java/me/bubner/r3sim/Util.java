@@ -19,6 +19,11 @@ public class Util {
         return ((value - min) % range + range) % range + min;
     }
     
+    public static <T> T apply(T obj, Consumer<T> func) {
+        func.accept(obj);
+        return obj;
+    }
+    
     public static class DeltaTimer extends AnimationTimer {
         private final Consumer<Double> dtSec;
         private long lastTime = 0;

@@ -9,24 +9,28 @@ import javafx.scene.shape.DrawMode;
 import javafx.scene.shape.MeshView;
 import javafx.scene.shape.TriangleMesh;
 import me.bubner.r3sim.camera.MainCamera;
+import me.bubner.r3sim.physics.Solid;
 
 /**
  * Vector parameterised form of a plane.
  *
  * @author Lucas Bubner, 2025
  */
-public class Plane extends Group {
+public class Plane extends Group implements Solid {
     private final Point3D startPoint;
     private final Point3D basis1;
     private final Point3D basis2;
+    private final Point3D normal;
 
     private double opacity = 0.5;
+    private double energyRetainedRatio = 1;
 
     public Plane(Point3D A, Point3D AV, Point3D AW) {
         setVisible(false);
         startPoint = A;
         basis1 = AV;
         basis2 = AW;
+        normal = AV.crossProduct(AW);
     }
 
     public Plane render(double lambdaMin, double lambdaMax, double muMin, double muMax) {
@@ -67,5 +71,28 @@ public class Plane extends Group {
     public Plane setColorOpacity(double opacity) {
         this.opacity = opacity;
         return this;
+    }
+    
+    public Plane setCollisionEnergyMultiplier(double energyRetainedRatio) {
+        this.energyRetainedRatio = energyRetainedRatio;
+        return this;
+    }
+
+    @Override
+    public Point3D getNormalVector() {
+        return normal;
+    }
+
+    @Override
+    public double getCollisionEnergyMultiplier() {
+        return energyRetainedRatio;
+    }
+
+    @Override
+    public boolean isIntersecting(Point3D query) {
+        // TODO: this isnt actually implemented
+        if (normal.angle(new Point3D(0, 0, -1)) == 180)
+            return query.getZ() < startPoint.getZ();
+        return query.getX() > startPoint.getX();
     }
 } 
