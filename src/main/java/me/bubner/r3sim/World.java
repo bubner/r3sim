@@ -1,6 +1,5 @@
 package me.bubner.r3sim;
 
-import javafx.geometry.Point3D;
 import javafx.scene.Group;
 import me.bubner.r3sim.geometry.Line;
 import me.bubner.r3sim.geometry.Plane;
@@ -9,16 +8,14 @@ import me.bubner.r3sim.objects.XYPlane;
 import me.bubner.r3sim.objects.XZPlane;
 import me.bubner.r3sim.objects.YZPlane;
 
+import static me.bubner.r3sim.Util.vec;
+
 /**
  * Declaration of all meaningful objects that will be added into the world.
  *
  * @author Lucas Bubner, 2025
  */
 public class World extends Group {
-    public static Point3D vec(double x, double y, double z) {
-        return new Point3D(x, y, z);
-    }
-    
     public World() {
         Point[] box = {
                 new Point(vec(350, 300, 200)),

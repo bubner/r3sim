@@ -9,6 +9,7 @@ import javafx.scene.shape.DrawMode;
 import javafx.scene.shape.MeshView;
 import javafx.scene.shape.TriangleMesh;
 import me.bubner.r3sim.camera.MainCamera;
+import me.bubner.r3sim.physics.RotatableAboutZ;
 import me.bubner.r3sim.physics.Solid;
 
 /**
@@ -16,7 +17,7 @@ import me.bubner.r3sim.physics.Solid;
  *
  * @author Lucas Bubner, 2025
  */
-public class Plane extends Group implements Solid {
+public class Plane extends Group implements Solid, RotatableAboutZ {
     public static final double PLANE_INTERACTION_EPSILON = 10;
 
     private final Point3D startPoint;
@@ -109,5 +110,10 @@ public class Plane extends Group implements Solid {
         double projectedMu = relativePoint.dotProduct(basis2) / basis2.dotProduct(basis2);
         return projectedLambda >= lambdaMin && projectedLambda <= lambdaMax
                 && projectedMu >= muMin && projectedMu <= muMax;
+    }
+
+    @Override
+    public void rotateAboutZBy(double angRad) {
+        // TODO
     }
 } 

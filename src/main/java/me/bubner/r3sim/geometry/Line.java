@@ -6,13 +6,14 @@ import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Cylinder;
 import javafx.scene.transform.Rotate;
 import me.bubner.r3sim.camera.MainCamera;
+import me.bubner.r3sim.physics.RotatableAboutZ;
 
 /**
  * Vector parameterised form of a line.
  *
  * @author Lucas Bubner, 2025
  */
-public class Line extends Cylinder {
+public class Line extends Cylinder implements RotatableAboutZ {
     public static final double LINE_WIDTH = 1;
     private static final Color LINE_COLOUR = Color.RED;
 
@@ -57,5 +58,10 @@ public class Line extends Cylinder {
 
     public Line render() {
         return render(-MainCamera.CAMERA_FAR_CLIP, MainCamera.CAMERA_FAR_CLIP);
+    }
+
+    @Override
+    public void rotateAboutZBy(double angRad) {
+        // TODO
     }
 }

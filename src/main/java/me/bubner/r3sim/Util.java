@@ -1,6 +1,7 @@
 package me.bubner.r3sim;
 
 import javafx.animation.AnimationTimer;
+import javafx.geometry.Point3D;
 
 import java.util.function.Consumer;
 
@@ -22,6 +23,10 @@ public class Util {
     public static <T> T apply(T obj, Consumer<T> func) {
         func.accept(obj);
         return obj;
+    }
+
+    public static Point3D vec(double x, double y, double z) {
+        return new Point3D(x, y, z);
     }
 
     public static class DeltaTimer extends AnimationTimer {
