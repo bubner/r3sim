@@ -58,7 +58,10 @@ public class World extends Group {
                 new Line(vec(600, -300, -200), vec(-250, 0, 400))
                         .render(0, 1),
                 new Line(vec(600, 300, 200), vec(-250, 0, -400))
-                        .render(0, 1)
+                        .render(0, 1),
+                new Plane(vec(350, -300, -200), vec(0, 1, 0), vec(0, 0, 1))
+                        .setColorOpacity(0.05)
+                        .render(0, 600, 0, 400)
         );
     }
 }
