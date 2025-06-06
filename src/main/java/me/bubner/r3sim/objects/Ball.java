@@ -14,7 +14,7 @@ import me.bubner.r3sim.physics.Solid;
  *
  * @author Lucas Bubner, 2025
  */
-public class Ball extends Point {
+public class Ball extends Point implements Solid {
     private static final double BALL_RADIUS = 30;
     private static final Color BALL_COLOUR = Color.YELLOW;
 
@@ -45,7 +45,12 @@ public class Ball extends Point {
             }
             velocity = velocity.add(acceleration.multiply(dtSec));
             for (Solid object : Solid.OBJECTS) {
-                if (!object.isIntersecting(position)) continue;
+                if (!object.isIntersecting(position))
+                    continue;
+                if (object instanceof Ball ball) {
+                    // TODO: ball mechanics
+                    continue;
+                }
                 // Vector reflection formula d=2(d dot n)n
                 Point3D normal = object.getNormalVector().normalize();
                 velocity = velocity.subtract(normal.multiply(2 * velocity.dotProduct(normal)))
@@ -70,5 +75,24 @@ public class Ball extends Point {
     public Ball setAcceleration(Point3D acceleration) {
         this.acceleration = acceleration;
         return this;
+    }
+
+    @Override
+    public Point3D getNormalVector() {
+        return velocity;
+    }
+
+    @Override
+    public double getCollisionEnergyMultiplier() {
+        return 1;
+    }
+
+    @Override
+    public boolean isIntersecting(Point3D query) {
+        double distance = query.subtract(getPosition()).magnitude();
+        // Too close, must be a self-reference
+        if (distance <= 1e-8)
+            return false;
+        return distance <= 2 * getRadius();
     }
 }
