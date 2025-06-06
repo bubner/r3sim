@@ -11,6 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import me.bubner.r3sim.camera.AngleOverlay;
 import me.bubner.r3sim.camera.MainCamera;
+import me.bubner.r3sim.physics.BallCollisions;
 
 /**
  * R3Sim
@@ -54,6 +55,7 @@ public class R3Sim extends Application {
         hud.getChildren().add(new AngleOverlay());
         world = new World();
         world.init();
+        BallCollisions.enable();
         root3d.getChildren().addAll(camera, world);
 
         stage.setTitle("R3 Sim");

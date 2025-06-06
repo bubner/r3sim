@@ -44,13 +44,10 @@ public class Ball extends Point implements Solid {
                 velocityVector.render(0, 1);
             }
             velocity = velocity.add(acceleration.multiply(dtSec));
+            // Planar collisions handled per ball
             for (Solid object : Solid.OBJECTS) {
-                if (!object.isIntersecting(position))
+                if (!object.isIntersecting(position) || object instanceof Ball)
                     continue;
-                if (object instanceof Ball ball) {
-                    // TODO: ball mechanics
-                    continue;
-                }
                 // Vector reflection formula d=2(d dot n)n
                 Point3D normal = object.getNormalVector().normalize();
                 velocity = velocity.subtract(normal.multiply(2 * velocity.dotProduct(normal)))
