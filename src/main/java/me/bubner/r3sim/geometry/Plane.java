@@ -20,7 +20,7 @@ import me.bubner.r3sim.physics.Solid;
  * @author Lucas Bubner, 2025
  */
 public class Plane extends Group implements Solid, RotatableAboutZ, Copyable {
-    public static final double PLANE_INTERACTION_EPSILON = 5;
+    public static final double PLANE_INTERACTION_EPSILON = 10;
 
     private Point3D startPoint;
     private Point3D basis1;
