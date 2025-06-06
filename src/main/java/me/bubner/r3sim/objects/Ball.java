@@ -37,7 +37,10 @@ public class Ball extends Point {
             Point3D position = getPosition();
             if (showVelocityVector) {
                 velocityVector.startPoint = position;
-                velocityVector.directionVector = Util.lerp(velocityVector.directionVector, velocity, dtSec * 5);
+                // Velocity is relative so it is from startPoint, add a radius length to
+                // the vector to account for the ball itself
+                velocityVector.directionVector = Util.lerp(velocityVector.directionVector,
+                        velocity.add(velocityVector.directionVector.normalize().multiply(getRadius())), dtSec * 5);
                 velocityVector.render(0, 1);
             }
             velocity = velocity.add(acceleration.multiply(dtSec));

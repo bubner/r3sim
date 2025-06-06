@@ -1,6 +1,7 @@
 package me.bubner.r3sim.geometry;
 
 import javafx.geometry.Point3D;
+import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Sphere;
@@ -11,7 +12,7 @@ import me.bubner.r3sim.physics.RotatableAboutZ;
  *
  * @author Lucas Bubner, 2025
  */
-public class Point extends Sphere implements RotatableAboutZ {
+public class Point extends Sphere implements RotatableAboutZ, Copyable {
     private static final Color POINT_COLOUR = Color.CYAN;
     private static final double POINT_SIZE = 5;
 
@@ -34,5 +35,13 @@ public class Point extends Sphere implements RotatableAboutZ {
     @Override
     public void rotateAboutZBy(double angRad) {
         // TODO
+    }
+
+    @Override
+    public Node copy() {
+        Point point = new Point(getPosition());
+        point.setMaterial(getMaterial());
+        point.setRadius(getRadius());
+        return point;
     }
 }

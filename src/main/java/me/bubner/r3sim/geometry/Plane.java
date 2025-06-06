@@ -2,6 +2,7 @@ package me.bubner.r3sim.geometry;
 
 import javafx.geometry.Point3D;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.CullFace;
@@ -17,7 +18,7 @@ import me.bubner.r3sim.physics.Solid;
  *
  * @author Lucas Bubner, 2025
  */
-public class Plane extends Group implements Solid, RotatableAboutZ {
+public class Plane extends Group implements Solid, RotatableAboutZ, Copyable {
     public static final double PLANE_INTERACTION_EPSILON = 10;
 
     private final Point3D startPoint;
@@ -115,5 +116,21 @@ public class Plane extends Group implements Solid, RotatableAboutZ {
     @Override
     public void rotateAboutZBy(double angRad) {
         // TODO
+    }
+
+    @Override
+    public Node copy() {
+        Plane plane = new Plane(startPoint, basis1, basis2);
+        plane.lambdaMin = lambdaMin;
+        plane.lambdaMax = lambdaMax;
+        plane.muMin = muMin;
+        plane.muMax = muMax;
+        plane.opacity = opacity;
+        plane.energyRetainedRatio = energyRetainedRatio;
+        if (lambdaMin != 0 && lambdaMax != 0 && muMin != 0 && muMax != 0)
+            plane.render(lambdaMin, lambdaMax, muMin, muMax);
+        if (Solid.OBJECTS.contains(this))
+            plane.enablePhysicsInteractions();
+        return plane;
     }
 } 

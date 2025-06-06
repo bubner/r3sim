@@ -1,6 +1,7 @@
 package me.bubner.r3sim.geometry;
 
 import javafx.geometry.Point3D;
+import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Cylinder;
@@ -13,7 +14,7 @@ import me.bubner.r3sim.physics.RotatableAboutZ;
  *
  * @author Lucas Bubner, 2025
  */
-public class Line extends Cylinder implements RotatableAboutZ {
+public class Line extends Cylinder implements RotatableAboutZ, Copyable {
     public static final double LINE_WIDTH = 1;
     private static final Color LINE_COLOUR = Color.RED;
 
@@ -64,5 +65,18 @@ public class Line extends Cylinder implements RotatableAboutZ {
     @Override
     public void rotateAboutZBy(double angRad) {
         // TODO
+    }
+
+    @Override
+    public Node copy() {
+        Line line = new Line(startPoint, directionVector);
+        line.setHeight(getHeight());
+        line.setVisible(isVisible());
+        line.setMaterial(getMaterial());
+        line.setTranslateX(getTranslateX());
+        line.setTranslateY(getTranslateY());
+        line.setTranslateZ(getTranslateZ());
+        line.getTransforms().addAll(getTransforms());
+        return line;
     }
 }
