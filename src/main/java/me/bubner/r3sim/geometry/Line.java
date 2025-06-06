@@ -17,8 +17,8 @@ public class Line extends Cylinder implements RotatableAboutZ {
     public static final double LINE_WIDTH = 1;
     private static final Color LINE_COLOUR = Color.RED;
 
-    private final Point3D startPoint;
-    private final Point3D directionVector;
+    public Point3D startPoint;
+    public Point3D directionVector;
 
     public Line(Point3D startPoint, Point3D directionVector) {
         // Height will be set later
@@ -43,6 +43,7 @@ public class Line extends Cylinder implements RotatableAboutZ {
         setTranslateY(midpoint.getY());
         setTranslateZ(midpoint.getZ());
 
+        getTransforms().clear();
         Rotate rotation = new Rotate(
                 // Default axis of the cylinder is the Y axis, so use the angle between two vectors (on two unit vectors)
                 // to calculate how much rotation is needed

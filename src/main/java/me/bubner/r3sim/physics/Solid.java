@@ -11,7 +11,7 @@ import java.util.ArrayList;
  */
 public interface Solid {
     ArrayList<Solid> OBJECTS = new ArrayList<>();
-    
+
     default void enablePhysicsInteractions() {
         OBJECTS.add(this);
     }

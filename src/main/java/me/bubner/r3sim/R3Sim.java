@@ -21,9 +21,14 @@ public class R3Sim extends Application {
     private static final Color FILL_COLOUR = Color.GRAY
             .deriveColor(0, 0, 0, 0.7);
     private static Scene mainScene;
+    private static World world;
 
     public static Scene getMainScene() {
         return mainScene;
+    }
+
+    public static World getWorld() {
+        return world;
     }
 
     public static void main(String[] args) {
@@ -47,7 +52,9 @@ public class R3Sim extends Application {
         scene3d.setCamera(camera.getCamera());
         scene3d.setFill(FILL_COLOUR);
         hud.getChildren().add(new AngleOverlay());
-        root3d.getChildren().addAll(camera, new World());
+        world = new World();
+        world.init();
+        root3d.getChildren().addAll(camera, world);
 
         stage.setTitle("R3 Sim");
         stage.setResizable(false);

@@ -1,12 +1,15 @@
 package me.bubner.r3sim;
 
 import javafx.scene.Group;
+import javafx.scene.Node;
 import me.bubner.r3sim.geometry.Line;
 import me.bubner.r3sim.geometry.Plane;
 import me.bubner.r3sim.geometry.Point;
+import me.bubner.r3sim.objects.Ball;
 import me.bubner.r3sim.objects.XYPlane;
 import me.bubner.r3sim.objects.XZPlane;
 import me.bubner.r3sim.objects.YZPlane;
+import me.bubner.r3sim.physics.Solid;
 
 import static me.bubner.r3sim.Util.vec;
 
@@ -16,8 +19,8 @@ import static me.bubner.r3sim.Util.vec;
  * @author Lucas Bubner, 2025
  */
 public class World extends Group {
-    public World() {
-        Point[] box = {
+    public void init() {
+        Node[] box = {
                 new Point(vec(350, 300, 200)),
                 new Point(vec(600, 300, 200)),
                 new Point(vec(350, -300, 200)),
@@ -25,18 +28,11 @@ public class World extends Group {
                 new Point(vec(350, 300, -200)),
                 new Point(vec(600, 300, -200)),
                 new Point(vec(350, -300, -200)),
-                new Point(vec(600, -300, -200))
-        };
-        // TODO: rotation and replication around z
-        getChildren().addAll(box);
-        getChildren().addAll(
-                new XYPlane().render(),
-                new XZPlane().render(),
-                new YZPlane().render(),
+                new Point(vec(600, -300, -200)),
                 new Plane(vec(350, 300, 200), vec(0, -1, 0), vec(1, 0, 0))
                         .setColorOpacity(0.4)
                         .render(0, 600, 0, 250),
-                new Plane(vec(350, 300, -200), vec(0, -1, 0), vec(1,0,0))
+                new Plane(vec(350, 300, -200), vec(0, -1, 0), vec(1, 0, 0))
                         .setColorOpacity(0.4)
                         .render(0, 600, 0, 250),
                 new Plane(vec(600, 300, -200), vec(0, -1, 0), vec(0, 0, 1))
@@ -61,7 +57,22 @@ public class World extends Group {
                         .render(0, 1),
                 new Plane(vec(350, -300, -200), vec(0, 1, 0), vec(0, 0, 1))
                         .setColorOpacity(0.05)
-                        .render(0, 600, 0, 400)
+                        .render(0, 600, 0, 400),
+        };
+        for (Node node : box) {
+            if (node instanceof Solid s)
+                s.enablePhysicsInteractions();
+            // TODO: rotation and replication around z
+            getChildren().add(node);
+        }
+        getChildren().addAll(
+                new XYPlane().render(),
+                new XZPlane().render(),
+                new YZPlane().render(),
+                new Ball(vec(450, 0, 0))
+                        .setAcceleration(vec(0, 0, -100))
+                        .setVelocity(vec(100, 20, 0))
+                        .setShowVelocityVector(true)
         );
     }
 }

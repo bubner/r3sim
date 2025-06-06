@@ -3,7 +3,9 @@ package me.bubner.r3sim.objects;
 import javafx.geometry.Point3D;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
+import me.bubner.r3sim.R3Sim;
 import me.bubner.r3sim.Util;
+import me.bubner.r3sim.geometry.Line;
 import me.bubner.r3sim.geometry.Point;
 import me.bubner.r3sim.physics.Solid;
 
@@ -16,6 +18,9 @@ public class Ball extends Point {
     private static final double BALL_RADIUS = 30;
     private static final Color BALL_COLOUR = Color.YELLOW;
 
+    private final Line velocityVector = new Line(new Point3D(0, 0, 0), new Point3D(0, 0, 0));
+    private boolean showVelocityVector;
+
     private Point3D velocity = new Point3D(0, 0, 0);
     private Point3D acceleration = new Point3D(0, 0, 0);
 
@@ -24,8 +29,17 @@ public class Ball extends Point {
         setRadius(BALL_RADIUS);
         setMaterial(new PhongMaterial(BALL_COLOUR));
 
+        velocityVector.setRadius(Line.LINE_WIDTH * 5);
+        velocityVector.setMaterial(new PhongMaterial(Color.ORANGERED));
+        R3Sim.getWorld().getChildren().add(velocityVector);
+
         Util.DeltaTimer physics = new Util.DeltaTimer((dtSec) -> {
             Point3D position = getPosition();
+            if (showVelocityVector) {
+                velocityVector.startPoint = position;
+                velocityVector.directionVector = Util.lerp(velocityVector.directionVector, velocity, dtSec * 5);
+                velocityVector.render(0, 1);
+            }
             velocity = velocity.add(acceleration.multiply(dtSec));
             for (Solid object : Solid.OBJECTS) {
                 if (!object.isIntersecting(position)) continue;
@@ -38,6 +52,11 @@ public class Ball extends Point {
         });
 
         physics.start();
+    }
+
+    public Ball setShowVelocityVector(boolean show) {
+        showVelocityVector = show;
+        return this;
     }
 
     public Ball setVelocity(Point3D velocity) {

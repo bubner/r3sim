@@ -29,6 +29,10 @@ public class Util {
         return new Point3D(x, y, z);
     }
 
+    public static Point3D lerp(Point3D a, Point3D b, double t) {
+        return b.multiply(t).add(a.multiply(1 - Util.clamp(t, 0, 1)));
+    }
+
     public static class DeltaTimer extends AnimationTimer {
         private final Consumer<Double> dtSec;
         private long lastTime = 0;
