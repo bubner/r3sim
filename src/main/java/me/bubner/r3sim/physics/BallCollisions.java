@@ -25,6 +25,7 @@ public class BallCollisions {
                     if (!ball.isIntersecting(otherBall.getPosition())) continue;
 
                     // TODO: ball physics
+                    //  https://vanhunteradams.com/Pico/Galton/Collisions.html
                 }
             }
         });

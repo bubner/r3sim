@@ -9,6 +9,8 @@ import me.bubner.r3sim.geometry.Line;
 import me.bubner.r3sim.geometry.Point;
 import me.bubner.r3sim.physics.Solid;
 
+import static me.bubner.r3sim.Util.vec;
+
 /**
  * Point with three-dimensional physics.
  *
@@ -18,11 +20,11 @@ public class Ball extends Point implements Solid {
     private static final double BALL_RADIUS = 30;
     private static final Color BALL_COLOUR = Color.YELLOW;
 
-    private final Line velocityVector = new Line(new Point3D(0, 0, 0), new Point3D(0, 0, 0));
+    private final Line velocityVector = new Line(vec(0, 0, 0), vec(0, 0, 0));
     private boolean showVelocityVector;
 
-    private Point3D velocity = new Point3D(0, 0, 0);
-    private Point3D acceleration = new Point3D(0, 0, 0);
+    public Point3D velocity = vec(0, 0, 0);
+    public Point3D acceleration = vec(0, 0, 0);
 
     public Ball(Point3D origin) {
         super(origin);

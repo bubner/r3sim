@@ -7,6 +7,8 @@ import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Sphere;
 import me.bubner.r3sim.physics.RotatableAboutZ;
 
+import static me.bubner.r3sim.Util.vec;
+
 /**
  * A spherical coloured point rendered immediately.
  *
@@ -23,7 +25,7 @@ public class Point extends Sphere implements RotatableAboutZ, Copyable {
     }
 
     public Point3D getPosition() {
-        return new Point3D(getTranslateX(), getTranslateY(), getTranslateZ());
+        return vec(getTranslateX(), getTranslateY(), getTranslateZ());
     }
 
     public void setPosition(Point3D newPosition) {

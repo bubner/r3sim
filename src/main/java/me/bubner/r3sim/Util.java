@@ -36,7 +36,7 @@ public class Util {
     public static Point3D rotateAboutZ(Point3D point, double angRad) {
         double sx = point.getX();
         double sy = point.getY();
-        return new Point3D(sx * Math.cos(angRad) - sy * Math.sin(angRad),
+        return vec(sx * Math.cos(angRad) - sy * Math.sin(angRad),
                 sx * Math.sin(angRad) + sy * Math.cos(angRad), point.getZ());
     }
 
