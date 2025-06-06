@@ -33,6 +33,13 @@ public class Util {
         return b.multiply(t).add(a.multiply(1 - Util.clamp(t, 0, 1)));
     }
 
+    public static Point3D rotateAboutZ(Point3D point, double angRad) {
+        double sx = point.getX();
+        double sy = point.getY();
+        return new Point3D(sx * Math.cos(angRad) - sy * Math.sin(angRad),
+                sx * Math.sin(angRad) + sy * Math.cos(angRad), point.getZ());
+    }
+
     public static class DeltaTimer extends AnimationTimer {
         private final Consumer<Double> dtSec;
         private long lastTime = 0;

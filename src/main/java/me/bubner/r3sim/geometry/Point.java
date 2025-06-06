@@ -34,7 +34,14 @@ public class Point extends Sphere implements RotatableAboutZ, Copyable {
 
     @Override
     public void rotateAboutZBy(double angRad) {
-        // TODO
+        // \begin{bmatrix}\cos\theta&-\sin\theta&0\\\sin\theta&\cos\theta&0\\0&0&1\end{bmatrix}\begin{bmatrix}x\\y\\z\end{bmatrix}=\begin{bmatrix}x\cos\theta-y\sin\theta\\x\sin\theta+y\cos\theta\\z\end{bmatrix}
+        double x = getTranslateX();
+        double y = getTranslateY();
+        // xcos(t)-ysin(t)
+        setTranslateX(x * Math.cos(angRad) - y * Math.sin(angRad));
+        setTranslateY(x * Math.sin(angRad) + y * Math.cos(angRad));
+        // xsin(t)+ycos(t)
+        // z=z
     }
 
     @Override

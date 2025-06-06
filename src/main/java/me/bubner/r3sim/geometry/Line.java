@@ -6,6 +6,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Cylinder;
 import javafx.scene.transform.Rotate;
+import me.bubner.r3sim.Util;
 import me.bubner.r3sim.camera.MainCamera;
 import me.bubner.r3sim.physics.RotatableAboutZ;
 
@@ -21,6 +22,8 @@ public class Line extends Cylinder implements RotatableAboutZ, Copyable {
     public Point3D startPoint;
     public Point3D directionVector;
 
+    private double lambdaMin, lambdaMax;
+
     public Line(Point3D startPoint, Point3D directionVector) {
         // Height will be set later
         super(LINE_WIDTH, 0);
@@ -31,6 +34,9 @@ public class Line extends Cylinder implements RotatableAboutZ, Copyable {
     }
 
     public Line render(double lambdaMin, double lambdaMax) {
+        this.lambdaMin = lambdaMin;
+        this.lambdaMax = lambdaMax;
+
         setVisible(true);
         Point3D p1 = startPoint.add(directionVector.multiply(lambdaMin));
         Point3D p2 = startPoint.add(directionVector.multiply(lambdaMax));
@@ -64,7 +70,10 @@ public class Line extends Cylinder implements RotatableAboutZ, Copyable {
 
     @Override
     public void rotateAboutZBy(double angRad) {
-        // TODO
+        startPoint = Util.rotateAboutZ(startPoint, angRad);
+        directionVector = Util.rotateAboutZ(directionVector, angRad);
+        if (lambdaMax != 0 || lambdaMin != 0)
+            render(lambdaMin, lambdaMax);
     }
 
     @Override
@@ -77,6 +86,8 @@ public class Line extends Cylinder implements RotatableAboutZ, Copyable {
         line.setTranslateY(getTranslateY());
         line.setTranslateZ(getTranslateZ());
         line.getTransforms().addAll(getTransforms());
+        if (lambdaMax != 0 || lambdaMin != 0)
+            line.render(lambdaMin, lambdaMax);
         return line;
     }
 }

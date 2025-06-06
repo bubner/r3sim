@@ -65,7 +65,7 @@ public class World extends Group {
             if (node instanceof Solid s)
                 s.enablePhysicsInteractions();
             getChildren().add(node);
-            for (double ang = 0; ang < 2 * Math.PI; ang += Math.PI / 2) {
+            for (double ang = Math.PI / 2; ang < 2 * Math.PI; ang += Math.PI / 2) {
                 RotatableAboutZ copied = (RotatableAboutZ) (((Copyable) node).copy());
                 copied.rotateAboutZBy(ang);
                 getChildren().add((Node) copied);

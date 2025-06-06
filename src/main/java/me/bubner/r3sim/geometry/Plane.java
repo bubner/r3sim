@@ -9,6 +9,7 @@ import javafx.scene.shape.CullFace;
 import javafx.scene.shape.DrawMode;
 import javafx.scene.shape.MeshView;
 import javafx.scene.shape.TriangleMesh;
+import me.bubner.r3sim.Util;
 import me.bubner.r3sim.camera.MainCamera;
 import me.bubner.r3sim.physics.RotatableAboutZ;
 import me.bubner.r3sim.physics.Solid;
@@ -21,11 +22,11 @@ import me.bubner.r3sim.physics.Solid;
 public class Plane extends Group implements Solid, RotatableAboutZ, Copyable {
     public static final double PLANE_INTERACTION_EPSILON = 10;
 
-    private final Point3D startPoint;
-    private final Point3D basis1;
-    private final Point3D basis2;
-    private final Point3D normal;
-    private final double cartesianConstant;
+    private Point3D startPoint;
+    private Point3D basis1;
+    private Point3D basis2;
+    private Point3D normal;
+    private double cartesianConstant;
 
     private double lambdaMin, lambdaMax, muMin, muMax;
     private double opacity = 0.5;
@@ -47,6 +48,7 @@ public class Plane extends Group implements Solid, RotatableAboutZ, Copyable {
         this.muMax = muMax;
 
         setVisible(true);
+        getChildren().clear();
         TriangleMesh mesh = new TriangleMesh();
 
         Point3D p00 = startPoint.add(basis1.multiply(lambdaMin)).add(basis2.multiply(muMin));
@@ -115,7 +117,13 @@ public class Plane extends Group implements Solid, RotatableAboutZ, Copyable {
 
     @Override
     public void rotateAboutZBy(double angRad) {
-        // TODO
+        startPoint = Util.rotateAboutZ(startPoint, angRad);
+        basis1 = Util.rotateAboutZ(basis1, angRad);
+        basis2 = Util.rotateAboutZ(basis2, angRad);
+        normal = basis1.crossProduct(basis2);
+        cartesianConstant = normal.dotProduct(startPoint);
+        if (lambdaMin != 0 || lambdaMax != 0 || muMin != 0 || muMax != 0)
+            render(lambdaMin, lambdaMax, muMin, muMax);
     }
 
     @Override
@@ -127,7 +135,7 @@ public class Plane extends Group implements Solid, RotatableAboutZ, Copyable {
         plane.muMax = muMax;
         plane.opacity = opacity;
         plane.energyRetainedRatio = energyRetainedRatio;
-        if (lambdaMin != 0 && lambdaMax != 0 && muMin != 0 && muMax != 0)
+        if (lambdaMin != 0 || lambdaMax != 0 || muMin != 0 || muMax != 0)
             plane.render(lambdaMin, lambdaMax, muMin, muMax);
         if (Solid.OBJECTS.contains(this))
             plane.enablePhysicsInteractions();
