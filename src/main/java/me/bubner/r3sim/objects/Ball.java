@@ -21,10 +21,9 @@ public class Ball extends Point implements Solid {
     private static final Color BALL_COLOUR = Color.YELLOW;
 
     private final Line velocityVector = new Line(vec(0, 0, 0), vec(0, 0, 0));
-    private boolean showVelocityVector;
-
     public Point3D velocity = vec(0, 0, 0);
     public Point3D acceleration = vec(0, 0, 0);
+    private boolean showVelocityVector;
 
     public Ball(Point3D origin) {
         super(origin);
@@ -50,7 +49,8 @@ public class Ball extends Point implements Solid {
             for (Solid object : Solid.OBJECTS) {
                 if (!object.isIntersecting(position) || object instanceof Ball)
                     continue;
-                // Vector reflection formula d=2(d dot n)n
+                // Vector reflection formula d=2(d dot n)n,
+                // simplified derivation of https://vanhunteradams.com/Pico/Galton/Collisions.html
                 Point3D normal = object.getNormalVector().normalize();
                 velocity = velocity.subtract(normal.multiply(2 * velocity.dotProduct(normal)))
                         .multiply(object.getCollisionEnergyMultiplier());
