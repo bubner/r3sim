@@ -22,7 +22,7 @@ import static me.bubner.r3sim.Util.vec;
  */
 public class World extends Group {
     public void init() {
-        Node[] box = {
+        Node[] forwardBox = {
                 new Point(vec(350, 300, 200)),
                 new Point(vec(600, 300, 200)),
                 new Point(vec(350, -300, 200)),
@@ -61,13 +61,13 @@ public class World extends Group {
                         .setColorOpacity(0.05)
                         .render(0, 600, 0, 400),
         };
-        for (Node node : box) {
-            if (node instanceof Solid s)
-                s.enablePhysicsInteractions();
-            getChildren().add(node);
-            for (double ang = Math.PI / 2; ang < 2 * Math.PI; ang += Math.PI / 2) {
+        for (Node node : forwardBox) {
+            double[] angles = {-Math.PI / 4, Math.PI / 4};
+            for (double ang : angles) {
                 RotatableAboutZ copied = (RotatableAboutZ) (((Copyable) node).copy());
                 copied.rotateAboutZBy(ang);
+                if (copied instanceof Solid s)
+                    s.enablePhysicsInteractions();
                 getChildren().add((Node) copied);
             }
         }
@@ -76,13 +76,25 @@ public class World extends Group {
                 new XZPlane().render(),
                 new YZPlane().render(),
                 Util.apply(new Ball(vec(400, 200, -100))
-                        .setAcceleration(vec(0, 0, -100))
-                        .setVelocity(vec(80, -100, 100))
-                        .setShowVelocityVector(true), Solid::enablePhysicsInteractions),
-                Util.apply(new Ball(vec(560, -250, 100))
-                        .setAcceleration(vec(0, 0, -100))
-                        .setVelocity(vec(-50, 200, -40))
-                        .setShowVelocityVector(true), Solid::enablePhysicsInteractions)
+                        .setAcceleration(vec(0, -10, -100))
+                        .setVelocity(vec(200, -70, 110))
+                        .setShowVelocityVector(true), b -> { b.enablePhysicsInteractions(); b.rotateAboutZBy(Math.PI / 4); }),
+                Util.apply(new Ball(vec(560, -250, 170))
+                        .setAcceleration(vec(10, 0, -100))
+                        .setVelocity(vec(0, 0, 0))
+                        .setShowVelocityVector(true), b -> { b.enablePhysicsInteractions(); b.rotateAboutZBy(Math.PI / 4); })
         );
+        Ball bouncer = Util.apply(new Ball(vec(-200, -400, 100))
+                        .setAcceleration(vec(0, 0, -100))
+                        .setVelocity(vec(0, 0, 0))
+                        .setShowVelocityVector(true), b -> { b.enablePhysicsInteractions(); b.rotateAboutZBy(Math.PI / 4); });
+        getChildren().add(bouncer);
+        for (int x = 0; x <= 400; x += 100) {
+            Ball newBall = (Ball) bouncer.copy();
+            newBall.setPosition(vec(-200 + x, -400, 100));
+            newBall.velocity = vec(0, 0, -x / 4.0);
+            newBall.rotateAboutZBy(Math.PI / 4);
+            getChildren().add(newBall);
+        }
     }
 }

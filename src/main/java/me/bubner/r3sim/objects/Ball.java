@@ -1,6 +1,7 @@
 package me.bubner.r3sim.objects;
 
 import javafx.geometry.Point3D;
+import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import me.bubner.r3sim.R3Sim;
@@ -22,7 +23,7 @@ public class Ball extends Point implements Solid {
     private static final double BALL_RADIUS = 30;
     private static final Color BALL_COLOUR = Color.YELLOW;
     private static final double COEFFICIENT_OF_RESTITUTION = 1;
-    private static final double SAME_PLANE_INTERACTION_COOLDOWN_SEC = 0.2;
+    private static final double SAME_PLANE_INTERACTION_COOLDOWN_SEC = 0.3;
 
     private final Line velocityVector = new Line(vec(0, 0, 0), vec(0, 0, 0));
     public volatile Point3D velocity = vec(0, 0, 0);
@@ -90,6 +91,17 @@ public class Ball extends Point implements Solid {
     public Ball setAcceleration(Point3D acceleration) {
         this.acceleration = acceleration;
         return this;
+    }
+    
+    @Override
+    public Node copy() {
+        Ball ball = new Ball(getPosition());
+        ball.velocity = velocity;
+        ball.acceleration = acceleration;
+        ball.showVelocityVector = showVelocityVector;
+        if (Solid.OBJECTS.contains(this))
+            ball.enablePhysicsInteractions();
+        return ball;
     }
 
     @Override
