@@ -30,7 +30,7 @@ public class Plane extends Group implements Solid, RotatableAboutZ, Copyable {
 
     private double lambdaMin, lambdaMax, muMin, muMax;
     private double opacity = 0.5;
-    private double energyRetainedRatio = 1;
+    private double restitution = 1;
 
     public Plane(Point3D A, Point3D AV, Point3D AW) {
         setVisible(false);
@@ -93,12 +93,12 @@ public class Plane extends Group implements Solid, RotatableAboutZ, Copyable {
     }
 
     @Override
-    public double getCollisionEnergyMultiplier() {
-        return energyRetainedRatio;
+    public double getRestitutionCoefficient() {
+        return restitution;
     }
 
-    public Plane setCollisionEnergyMultiplier(double energyRetainedRatio) {
-        this.energyRetainedRatio = energyRetainedRatio;
+    public Plane setCoefficientOfRestitution(double elasticity) {
+        restitution = elasticity;
         return this;
     }
 
@@ -134,7 +134,7 @@ public class Plane extends Group implements Solid, RotatableAboutZ, Copyable {
         plane.muMin = muMin;
         plane.muMax = muMax;
         plane.opacity = opacity;
-        plane.energyRetainedRatio = energyRetainedRatio;
+        plane.restitution = restitution;
         if (lambdaMin != 0 || lambdaMax != 0 || muMin != 0 || muMax != 0)
             plane.render(lambdaMin, lambdaMax, muMin, muMax);
         if (Solid.OBJECTS.contains(this))

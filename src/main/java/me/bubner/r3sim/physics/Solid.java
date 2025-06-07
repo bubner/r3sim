@@ -18,7 +18,7 @@ public interface Solid {
 
     Point3D getNormalVector();
 
-    double getCollisionEnergyMultiplier();
+    double getRestitutionCoefficient();
 
     boolean isIntersecting(Point3D query);
 }

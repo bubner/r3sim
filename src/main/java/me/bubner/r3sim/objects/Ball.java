@@ -19,6 +19,7 @@ import static me.bubner.r3sim.Util.vec;
 public class Ball extends Point implements Solid {
     private static final double BALL_RADIUS = 30;
     private static final Color BALL_COLOUR = Color.YELLOW;
+    private static final double COEFFICIENT_OF_RESTITUTION = 1;
 
     private final Line velocityVector = new Line(vec(0, 0, 0), vec(0, 0, 0));
     public Point3D velocity = vec(0, 0, 0);
@@ -49,11 +50,13 @@ public class Ball extends Point implements Solid {
             for (Solid object : Solid.OBJECTS) {
                 if (!object.isIntersecting(position) || object instanceof Ball)
                     continue;
-                // Vector reflection formula d=2(d dot n)n,
-                // simplified derivation of https://vanhunteradams.com/Pico/Galton/Collisions.html
+                // Simplified derivation of https://vanhunteradams.com/Pico/Galton/Collisions.html
+                // for bouncing off a wall with coefficient of restitution
                 Point3D normal = object.getNormalVector().normalize();
-                velocity = velocity.subtract(normal.multiply(2 * velocity.dotProduct(normal)))
-                        .multiply(object.getCollisionEnergyMultiplier());
+                velocity = velocity.subtract(
+                        // delta V
+                        normal.multiply((1 + object.getRestitutionCoefficient()) * velocity.dotProduct(normal))
+                );
             }
             setPosition(position.add(velocity.multiply(dtSec)));
         });
@@ -82,8 +85,8 @@ public class Ball extends Point implements Solid {
     }
 
     @Override
-    public double getCollisionEnergyMultiplier() {
-        return 1;
+    public double getRestitutionCoefficient() {
+        return COEFFICIENT_OF_RESTITUTION;
     }
 
     @Override

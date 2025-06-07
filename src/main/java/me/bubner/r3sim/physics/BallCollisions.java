@@ -42,11 +42,11 @@ public class BallCollisions {
                     // https://vanhunteradams.com/Pico/Galton/Collisions.html
                     // (r_m-r_M)/|r_m-r_M|, inertial frame from `ball`
                     Point3D direction = otherBall.getPosition().subtract(ball.getPosition()).normalize();
-                    // Assumes mass of balls is constant, m=1, M=1 -> 2/2*(d dot (v_i-V_i))d
-                    Point3D deltaV = direction.multiply(direction.dotProduct(otherBall.velocity.subtract(ball.velocity)));
-                    ball.velocity = deltaV;
+                    // Assumes mass of balls is constant, m=1, M=1 -> 1(1+C_R)/2*(d dot (v_i-V_i))d
+                    Point3D deltaV = direction.multiply((1 + ball.getRestitutionCoefficient()) * 0.5 * direction.dotProduct(otherBall.velocity.subtract(ball.velocity)));
+                    ball.velocity = ball.velocity.add(deltaV);
                     // dv = -dV since mass is constant
-                    otherBall.velocity = deltaV.multiply(-1);
+                    otherBall.velocity = otherBall.velocity.add(deltaV.multiply(-1));
 
                     // Only fire collisions for these two balls once
                     debouncedBalls.add(ball);
