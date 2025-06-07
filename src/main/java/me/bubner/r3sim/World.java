@@ -78,20 +78,29 @@ public class World extends Group {
                 Util.apply(new Ball(vec(400, 200, -100))
                         .setAcceleration(vec(0, -10, -100))
                         .setVelocity(vec(200, -70, 110))
-                        .setShowVelocityVector(true), b -> { b.enablePhysicsInteractions(); b.rotateAboutZBy(Math.PI / 4); }),
+                        .setShowVelocityVector(true), b -> {
+                    b.enablePhysicsInteractions();
+                    b.rotateAboutZBy(Math.PI / 4);
+                }),
                 Util.apply(new Ball(vec(560, -250, 170))
                         .setAcceleration(vec(10, 0, -100))
-                        .setVelocity(vec(0, 0, 0))
-                        .setShowVelocityVector(true), b -> { b.enablePhysicsInteractions(); b.rotateAboutZBy(Math.PI / 4); })
+                        .setVelocity(vec(50, -50, -20))
+                        .setShowVelocityVector(true), b -> {
+                    b.enablePhysicsInteractions();
+                    b.rotateAboutZBy(Math.PI / 4);
+                })
         );
         Ball bouncer = Util.apply(new Ball(vec(-200, -400, 100))
-                        .setAcceleration(vec(0, 0, -100))
-                        .setVelocity(vec(0, 0, 0))
-                        .setShowVelocityVector(true), b -> { b.enablePhysicsInteractions(); b.rotateAboutZBy(Math.PI / 4); });
+                .setAcceleration(vec(0, 0, -100))
+                .setVelocity(vec(0, 0, 0))
+                .setShowVelocityVector(true), b -> {
+            b.enablePhysicsInteractions();
+            b.rotateAboutZBy(Math.PI / 4);
+        });
         getChildren().add(bouncer);
         for (int x = 0; x <= 400; x += 100) {
             Ball newBall = (Ball) bouncer.copy();
-            newBall.setPosition(vec(-200 + x, -400, 100));
+            newBall.setPosition(vec(-200 + x, -400, 100 - x / 4.0));
             newBall.velocity = vec(0, 0, -x / 4.0);
             newBall.rotateAboutZBy(Math.PI / 4);
             getChildren().add(newBall);

@@ -92,7 +92,7 @@ public class Ball extends Point implements Solid {
         this.acceleration = acceleration;
         return this;
     }
-    
+
     @Override
     public Node copy() {
         Ball ball = new Ball(getPosition());
