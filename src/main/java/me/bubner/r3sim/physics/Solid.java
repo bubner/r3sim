@@ -18,6 +18,7 @@ public interface Solid {
 
     Point3D getNormalVector();
 
+    /** warning: high values of restitution leads to isIntersecting failures */
     double getRestitutionCoefficient();
 
     boolean isIntersecting(Point3D query);
