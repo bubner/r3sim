@@ -25,8 +25,8 @@ public class Ball extends Point implements Solid {
     private static final double SAME_PLANE_INTERACTION_COOLDOWN_SEC = 0.2;
 
     private final Line velocityVector = new Line(vec(0, 0, 0), vec(0, 0, 0));
-    public Point3D velocity = vec(0, 0, 0);
-    public Point3D acceleration = vec(0, 0, 0);
+    public volatile Point3D velocity = vec(0, 0, 0);
+    public volatile Point3D acceleration = vec(0, 0, 0);
     private boolean showVelocityVector;
 
     public Ball(Point3D origin) {
@@ -55,7 +55,7 @@ public class Ball extends Point implements Solid {
                         velocity.add(velocityVector.directionVector.normalize().multiply(getRadius())), dtSec * 5);
                 velocityVector.render(0, 1);
             }
-            velocity = velocity.add(acceleration.multiply(dtSec));
+            Point3D newVelocity = velocity.add(acceleration.multiply(dtSec));
             // Planar collisions handled per ball
             for (Solid object : Solid.OBJECTS) {
                 if (object instanceof Ball || debouncedObjects.contains(object) || !object.isIntersecting(position))
@@ -63,14 +63,15 @@ public class Ball extends Point implements Solid {
                 // Simplified derivation of https://vanhunteradams.com/Pico/Galton/Collisions.html
                 // for bouncing off a wall with coefficient of restitution
                 Point3D normal = object.getNormalVector().normalize();
-                velocity = velocity.subtract(
+                newVelocity = velocity.subtract(
                         // delta V
                         normal.multiply((1 + object.getRestitutionCoefficient()) * velocity.dotProduct(normal))
                 );
                 // Prevent multiple plane collisions for a single event
                 debouncedObjects.add(object);
             }
-            setPosition(position.add(velocity.multiply(dtSec)));
+            velocity = newVelocity;
+            setPosition(position.add(newVelocity.multiply(dtSec)));
         });
 
         physics.start();

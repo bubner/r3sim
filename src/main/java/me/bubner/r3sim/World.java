@@ -75,13 +75,13 @@ public class World extends Group {
                 new XYPlane().render(),
                 new XZPlane().render(),
                 new YZPlane().render(),
-                Util.apply(new Ball(vec(450, 0, 0))
+                Util.apply(new Ball(vec(400, 200, -100))
                         .setAcceleration(vec(0, 0, -100))
-                        .setVelocity(vec(100, 100, -14))
+                        .setVelocity(vec(80, -100, 100))
                         .setShowVelocityVector(true), Solid::enablePhysicsInteractions),
-                Util.apply(new Ball(vec(450, 100, 20))
-                        .setAcceleration(vec(0, 10, -100))
-                        .setVelocity(vec(100, 100, -14))
+                Util.apply(new Ball(vec(560, -250, 100))
+                        .setAcceleration(vec(0, 0, -100))
+                        .setVelocity(vec(-50, 200, -40))
                         .setShowVelocityVector(true), Solid::enablePhysicsInteractions)
         );
     }
