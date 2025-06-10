@@ -22,44 +22,50 @@ import static me.bubner.r3sim.Util.vec;
  */
 public class World extends Group {
     public void init() {
+        // note: vec(...) is shorthand for new Point3D(...)
+        Point B0 = new Point(vec(350, 300, -200));
+        Point B1 = new Point(vec(600, 300, -200));
+        Point B2 = new Point(vec(600, -300, -200));
+        Point B3 = new Point(vec(350, -300, -200));
+        Point U0 = new Point(vec(350, 300, 200));
+        Point U1 = new Point(vec(600, 300, 200));
+        Point U2 = new Point(vec(600, -300, 200));
+        Point U3 = new Point(vec(350, -300, 200));
+        Plane PB = new Plane(B1, vec(0, -1, 0), vec(0, 0, 1))
+                .render(0, 600, 0, 400);
+        Plane PF = new Plane(B3, vec(0, 1, 0), vec(0, 0, 1))
+                .setColorOpacity(0.05) // to see inside
+                .render(0, 600, 0, 400);
+        Plane PL = new Plane(B1, vec(-1, 0, 0), vec(0, 0, 1))
+                .setColorOpacity(0.3)
+                .render(0, 250, 0, 400);
+        Plane PR = new Plane(B3, vec(1, 0, 0), vec(0, 0, 1))
+                .setColorOpacity(0.3)
+                .render(0, 250, 0, 400);
+        Plane PU = new Plane(U0, vec(0, -1, 0), vec(1, 0, 0))
+                .setColorOpacity(0.4) // differentiate walls
+                .render(0, 600, 0, 250);
+        Plane PD = new Plane(B0, vec(0, -1, 0), vec(1, 0, 0))
+                .setColorOpacity(0.4)
+                .render(0, 600, 0, 250);
+        Line U0U3 = new Line(U3, vec(0, 1, 0))
+                .render(0, 600);
+        Line U1U2 = new Line(U2, vec(0, 1, 0))
+                .render(0, 600);
+        Line B0B3 = new Line(B0, vec(0, -1, 0))
+                .render(0, 600);
+        Line B1B2 = new Line(B1, vec(0, -1, 0))
+                .render(0, 600);
+        Line U1B0 = new Line(U1, vec(-250, 0, -400))
+                .render(0, 1);
+        Line B2U3 = new Line(B2, vec(-250, 0, 400))
+                .render(0, 1);
         Node[] forwardBox = {
-                new Point(vec(350, 300, 200)),
-                new Point(vec(600, 300, 200)),
-                new Point(vec(350, -300, 200)),
-                new Point(vec(600, -300, 200)),
-                new Point(vec(350, 300, -200)),
-                new Point(vec(600, 300, -200)),
-                new Point(vec(350, -300, -200)),
-                new Point(vec(600, -300, -200)),
-                new Plane(vec(350, 300, 200), vec(0, -1, 0), vec(1, 0, 0))
-                        .setColorOpacity(0.4)
-                        .render(0, 600, 0, 250),
-                new Plane(vec(350, 300, -200), vec(0, -1, 0), vec(1, 0, 0))
-                        .setColorOpacity(0.4)
-                        .render(0, 600, 0, 250),
-                new Plane(vec(600, 300, -200), vec(0, -1, 0), vec(0, 0, 1))
-                        .render(0, 600, 0, 400),
-                new Plane(vec(600, 300, -200), vec(-1, 0, 0), vec(0, 0, 1))
-                        .setColorOpacity(0.3)
-                        .render(0, 250, 0, 400),
-                new Plane(vec(350, -300, -200), vec(1, 0, 0), vec(0, 0, 1))
-                        .setColorOpacity(0.3)
-                        .render(0, 250, 0, 400),
-                new Line(vec(600, -300, 200), vec(0, 1, 0))
-                        .render(0, 600),
-                new Line(vec(350, -300, 200), vec(0, 1, 0))
-                        .render(0, 600),
-                new Line(vec(600, 300, -200), vec(0, -1, 0))
-                        .render(0, 600),
-                new Line(vec(350, 300, -200), vec(0, -1, 0))
-                        .render(0, 600),
-                new Line(vec(600, -300, -200), vec(-250, 0, 400))
-                        .render(0, 1),
-                new Line(vec(600, 300, 200), vec(-250, 0, -400))
-                        .render(0, 1),
-                new Plane(vec(350, -300, -200), vec(0, 1, 0), vec(0, 0, 1))
-                        .setColorOpacity(0.05)
-                        .render(0, 600, 0, 400),
+                B0, B1, B2, B3,
+                U0, U1, U2, U3,
+                PB, PF, PL, PR, PU, PD,
+                U0U3, U1U2, B0B3, B1B2,
+                U1B0, B2U3
         };
         for (Node node : forwardBox) {
             double[] angles = {-Math.PI / 4, Math.PI / 4};

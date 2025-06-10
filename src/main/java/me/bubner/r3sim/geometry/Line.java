@@ -24,6 +24,10 @@ public class Line extends Cylinder implements RotatableAboutZ, Copyable {
 
     private double lambdaMin, lambdaMax;
 
+    public Line(Point startPoint, Point3D directionVector) {
+        this(startPoint.getPosition(), directionVector);
+    }
+
     public Line(Point3D startPoint, Point3D directionVector) {
         // Height will be set later
         super(LINE_WIDTH, 0);

@@ -32,6 +32,10 @@ public class Plane extends Group implements Solid, RotatableAboutZ, Copyable {
     private double opacity = 0.5;
     private double restitution = 1;
 
+    public Plane(Point A, Point3D AV, Point3D AW) {
+        this(A.getPosition(), AV, AW);
+    }
+
     public Plane(Point3D A, Point3D AV, Point3D AW) {
         setVisible(false);
         startPoint = A;
